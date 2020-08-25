@@ -17,19 +17,15 @@ This repository contains the Ansible scripts for installing and configuring WSO2
 │   ├── group_vars
 │   │   └── ei.yml
 │   ├── host_vars
-│   │   ├── analytics_dashboard_1.yml
-│   │   ├── analytics_worker_1.yml
-│   │   ├── bps_1.yml
-│   │   ├── broker_1.yml
-│   │   ├── integrator_1.yml
-│   │   └── msf4j_1.yml
+│   │   └── integrator_1.yml
+│   │  
 │   └── inventory
 ├── docs
 │   └── images
 ├── files
 │   ├── lib
-│   │   ├── amazon-corretto-11.0.5.10.1-linux-x64.tar.gz
-│   │   └── mysql-connector-java-5.1.47-bin.jar
+│   │   ├── amazon-corretto-11.0.8.10.1-linux-x64.tar.gz
+│   │   └── postgresql-42.2.14.jar
 │   └── packs
 │       └── wso2ei-6.6.0.zip
 ├── issue_template.md
@@ -37,74 +33,7 @@ This repository contains the Ansible scripts for installing and configuring WSO2
 ├── pull_request_template.md
 ├── README.md
 ├── roles
-│   ├── analytics-dashboard
-│   │   ├── tasks
-│   │   │   ├── custom.yml
-│   │   │   └── main.yml
-│   │   └── templates
-│   │       ├── carbon-home
-│   │       │   ├── bin
-│   │       │   │   └── analytics-dashboard.sh.j2
-│   │       │   └── wso2
-│   │       │       └── analytics
-│   │       │           └── conf
-│   │       │               └── dashboard
-│   │       │                   └── deployment.yaml
-│   │       └── wso2ei-analytics-dashboard.service.j2
-│   ├── analytics-worker
-│   │   ├── tasks
-│   │   │   ├── custom.yml
-│   │   │   └── main.yml
-│   │   └── templates
-│   │       ├── carbon-home
-│   │       │   ├── bin
-│   │       │   │   └── analytics-worker.sh.j2
-│   │       │   └── wso2
-│   │       │       └── analytics
-│   │       │           └── conf
-│   │       │               └── worker
-│   │       │                   └── deployment.yaml
-│   │       └── wso2ei-analytics-worker.service.j2
-│   ├── bps
-│   │   ├── tasks
-│   │   │   ├── custom.yml
-│   │   │   └── main.yml
-│   │   └── templates
-│   │       ├── carbon-home
-│   │       │   └── wso2
-│   │       │       └── business-process
-│   │       │           ├── bin
-│   │       │           │   └── wso2server.sh
-│   │       │           └── conf
-│   │       │               ├── axis2
-│   │       │               │   └── axis2.xml.j2
-│   │       │               ├── carbon.xml.j2
-│   │       │               ├── datasources
-│   │       │               │   ├── activiti-datasources.xml.j2
-│   │       │               │   ├── bps-datasources.xml.j2
-│   │       │               │   └── master-datasources.xml.j2
-│   │       │               ├── registry.xml.j2
-│   │       │               └── user-mgt.xml.j2
-│   │       └── wso2ei-bps.service.j2
-│   ├── broker
-│   │   ├── tasks
-│   │   │   ├── custom.yml
-│   │   │   └── main.yml
-│   │   └── templates
-│   │       ├── carbon-home
-│   │       │   └── wso2
-│   │       │       └── broker
-│   │       │           ├── bin
-│   │       │           │   └── wso2server.sh
-│   │       │           └── conf
-│   │       │               ├── axis2
-│   │       │               │   └── axis2.xml.j2
-│   │       │               ├── carbon.xml.j2
-│   │       │               ├── datasources
-│   │       │               │   └── master-datasources.xml.j2
-│   │       │               ├── registry.xml.j2
-│   │       │               └── user-mgt.xml.j2
-│   │       └── wso2ei-broker.service.j2
+│   │
 │   ├── common
 │   │   └── tasks
 │   │       ├── custom.yml
@@ -150,16 +79,16 @@ Copy the following files to `files/packs` directory.
 
 Copy the following files to `files/lib` directory.
 
-1. [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/5.1.html)
+1. [PostgreSQL Connector](https://jdbc.postgresql.org/download.html)
 2. [Amazon Coretto for Linux x64 JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
 
 ## Running WSO2 Enterprise Integrator Ansible scripts
 
 ### 1. Run the existing scripts without customization
-The existing Ansible scripts contain the configurations to set-up WSO2 Enterprise Integrator. In order to deploy that, you need to replace the `[ip_address]` and `[ssh_user]` given in the `inventory` file under `dev` folder by the IP of the location where you need to host the Enterprise Integrator and the SSH user. An example is given below.
+The existing Ansible scripts contain the configurations to set-up WSO2 Enterprise Integrator [ESB profile]. In order to deploy that, you need to replace the `[ip_address]` , `[ssh_user]` and `[private_key]` given in the `inventory` file under `dev` folder by the IP of the location where you need to host the Enterprise Integrator and the SSH user. An example is given below.
 ```
-[ei]
-wso2ei ansible_host=172.28.128.4 ansible_user=vagrant
+[integrator]
+wso2ei ansible_host=172.28.128.4 ansible_user=centos ansible_ssh_private_key_file=/home/centos/support-cloud
 ```
 
 Run the following command to run the scripts.
