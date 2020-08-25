@@ -1,0 +1,51 @@
+#----------------------------------------------------------------------------
+#  Copyright (c) 2018 WSO2, Inc. http://www.wso2.org
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#----------------------------------------------------------------------------
+---
+  - block:
+    # Set installation directory information
+    - name: Installation Information
+      set_fact:
+        product_dir: "{{ target }}/integrator"
+        carbon_home: "{{ target }}/integrator/{{ product_name }}-{{ product_version }}"
+        capp_dir: "{{ target }}/integrator/{{ product_name }}-{{ product_version }}/repository/deployment/server/carbonapps"
+
+    - name: Remove existing carbonapps folder
+      file:
+        path: "{{ capp_dir }}"
+        state: absent
+
+    - name: Copy new carbonapps folder
+      copy:
+       src: "{{ product_package_location }}/Capps/"
+       dest: "{{ capp_dir }}"
+
+    - name: Change the owner of WSO2 directory
+      file:
+        path: "{{ target }}"
+        state: directory
+        recurse: true
+        owner: "{{ wso2_user }}"
+        group: "{{ wso2_group }}"
+        mode: 0755
+
+ #   when: "(inventory_hostname in groups['ei'])"
+    become: true
+ #   become_method: sudo
+    become_user: root
+
+# Enable customization by uncommenting the following and adding the changes to the custom.yml
+      # - import_tasks: custom.yml
+

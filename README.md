@@ -26,8 +26,11 @@ This repository contains the Ansible scripts for installing and configuring WSO2
 │   ├── lib
 │   │   ├── amazon-corretto-11.0.8.10.1-linux-x64.tar.gz
 │   │   └── postgresql-42.2.14.jar
-│   └── packs
-│       └── wso2ei-6.6.0.zip
+│   ├── packs
+│   │     └── wso2ei-6.6.0.zip
+│   └── Capps
+│		  └── .......
+│
 ├── issue_template.md
 ├── LICENSE
 ├── pull_request_template.md
@@ -38,40 +41,47 @@ This repository contains the Ansible scripts for installing and configuring WSO2
 │   │   └── tasks
 │   │       ├── custom.yml
 │   │       └── main.yml
-│   └── integrator
-│       ├── tasks
-│       │   ├── custom.yml
-│       │   └── main.yml
-│       └── templates
-│           ├── carbon-home
-│           │   ├── bin
-│           │   │   └── integrator.sh.j2
-│           │   ├── conf
-│           │   │   ├── axis2
-│           │   │   │   └── axis2.xml.j2
-│           │   │   ├── carbon.xml.j2
-│           │   │   ├── datasources
-│           │   │   │   └── master-datasources.xml.j2
-│           │   │   ├── jndi.properties.j2
-│           │   │   ├── registry.xml.j2
-│           │   │   ├── synapse.properties.j2
-│           │   │   ├── tomcat
-│           │   │   │   └── catalina-server.xml.j2
-│           │   │   └── user-mgt.xml.j2
-│           │   └── repository
-│           │       └── deployment
-│           │           └── server
-│           │               └── eventpublishers
-│           │                   ├── MessageFlowConfigurationPublisher.xml.j2
-│           │                   └── MessageFlowStatisticsPublisher.xml.j2
-│           └── wso2ei-integrator.service.j2
+│   ├── integrator
+│   │   ├── tasks
+│   │   │   ├── custom.yml
+│   │   │   └── main.yml
+│   │   └── templates
+│   │       ├── carbon-home
+│   │       │   ├── bin
+│   │       │   │   └── integrator.sh.j2
+│   │       │   ├── conf
+│   │       │   │   ├── axis2
+│   │       │   │   │   └── axis2.xml.j2
+│   │       │   │   ├── carbon.xml.j2
+│   │       │   │   ├── datasources
+│   │       │   │   │   └── master-datasources.xml.j2
+│   │       │   │   ├── jndi.properties.j2
+│   │       │   │   ├── registry.xml.j2
+│   │       │   │   ├── synapse.properties.j2
+│   │       │   │   ├── tomcat
+│   │       │   │   │   └── catalina-server.xml.j2
+│   │       │   │   └── user-mgt.xml.j2
+│   │       │   └── repository
+│   │       │       └── deployment
+│   │       │           └── server
+│   │       │               └── eventpublishers
+│   │       │                   ├── MessageFlowConfigurationPublisher.xml.j2
+│   │       │                   └── MessageFlowStatisticsPublisher.xml.j2
+│   │       └── wso2ei-integrator.service.j2
+│   │
+│   └── capp_deployer
+│       └── tasks
+│           ├── custom.yml
+│           └── main.yml
+│
 ├── scripts
 │   ├── update.sh
 │   └── update_README.md
-└── site.yml
+├── site.yml
+└── capp_deployment.yml
 ```
 
-## Packs to be Copied
+## Files to be Copied
 
 Copy the following files to `files/packs` directory.
 
@@ -81,6 +91,9 @@ Copy the following files to `files/lib` directory.
 
 1. [PostgreSQL Connector](https://jdbc.postgresql.org/download.html)
 2. [Amazon Coretto for Linux x64 JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
+
+Copy the Capps to `files/Capps` , file format will be .car .
+
 
 ## Running WSO2 Enterprise Integrator Ansible scripts
 
@@ -94,6 +107,10 @@ wso2ei ansible_host=172.28.128.4 ansible_user=centos ansible_ssh_private_key_fil
 Run the following command to run the scripts.
 
 `ansible-playbook -i dev site.yml`
+
+Run the following command to deploy the Capps.
+
+`ansible-playbook -i dev capp_deployment.yml`
 
 If you need to alter the configurations given, please change the parameterized values in the yaml files under `group_vars` and `host_vars`.
 
